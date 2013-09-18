@@ -3,7 +3,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
-
+import javax.swing.JLabel;
 /**
  * 
  */
@@ -20,6 +20,8 @@ public class Main extends JFrame {
 		setJMenuBar (tb.menuBar);
 		add (tb.toolBar, BorderLayout.NORTH);
 		//add(new Test());
+		JLabel status = new JLabel ("Status");
+		add(status, BorderLayout.SOUTH);
 		pack(); // makes window fit all components
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
