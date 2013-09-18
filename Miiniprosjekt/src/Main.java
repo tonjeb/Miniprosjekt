@@ -20,6 +20,7 @@ public class Main extends JFrame {
 		setJMenuBar (tb.menuBar);
 		add (tb.toolBar, BorderLayout.NORTH);
 		//add(new Test());
+		add (new Table());
 		JLabel status = new JLabel ("Status");
 		add(status, BorderLayout.SOUTH);
 		pack(); // makes window fit all components
