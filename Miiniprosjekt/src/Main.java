@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,7 +16,9 @@ public class Main extends JFrame {
 	static ResourceBundle messages;
 	public Main () {
 		super("Hello World");
-		setJMenuBar (new MenuBar());
+		ToolBar tb = new ToolBar();
+		setJMenuBar (tb.menuBar);
+		add (tb.toolBar, BorderLayout.NORTH);
 		//add(new Test());
 		pack(); // makes window fit all components
 		setVisible(true);
