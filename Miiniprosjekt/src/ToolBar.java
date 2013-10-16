@@ -15,13 +15,13 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 
-public class ToolBar {
+public class Toolbar {
 	
 	
 	public JMenuBar menuBar;
 	public JToolBar toolBar;
 	
-	public ToolBar() {
+	public Toolbar() {
 
 		// FILE MENU
 		

@@ -7,20 +7,19 @@ import javax.swing.JLabel;
 /**
  * 
  */
+import javax.swing.JScrollPane;
 
 /**
- * @author Ola
  *
  */
 public class Main extends JFrame {
 	static ResourceBundle messages;
 	public Main () {
 		super("Hello World");
-		ToolBar tb = new ToolBar();
+		Toolbar tb = new Toolbar();
 		setJMenuBar (tb.menuBar);
 		add (tb.toolBar, BorderLayout.NORTH);
-		//add(new Test());
-		add (new Table());
+		add (new JScrollPane(new Table()), BorderLayout.CENTER);
 		JLabel status = new JLabel ("Status");
 		add(status, BorderLayout.SOUTH);
 		pack(); // makes window fit all components
