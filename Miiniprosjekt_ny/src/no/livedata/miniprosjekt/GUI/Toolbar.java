@@ -339,7 +339,7 @@ public class Toolbar {
 	}
 	
 	public void load() {
-		JFileChooser chooser = new JFileChooser(new File("."));
+		JFileChooser chooser = new JFileChooser(new File(""));
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
 		if (chooser.showOpenDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;
@@ -370,7 +370,7 @@ public class Toolbar {
 	}
 	
 	public void saveAs() {
-		JFileChooser chooser = new JFileChooser(new File("."));
+		JFileChooser chooser = new JFileChooser(new File(""));
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
 		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;
@@ -390,7 +390,7 @@ public class Toolbar {
 	}
 
 	public void saveCode() {
-		JFileChooser chooser = new JFileChooser(new File("."));
+		JFileChooser chooser = new JFileChooser(new File(""));
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
 		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;

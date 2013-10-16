@@ -24,7 +24,6 @@ public class PopUp extends JPopupMenu {
         optItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(com, "Right-click performed on table and choose OPT");
                 dataModel.getRow(getRow()).showProp();
             }
         });
@@ -34,7 +33,7 @@ public class PopUp extends JPopupMenu {
         deleteItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(com, "Right-click performed on table and choose DELETE");
+            	dataModel.delete(getRow());
             }
         });
         add(deleteItem);

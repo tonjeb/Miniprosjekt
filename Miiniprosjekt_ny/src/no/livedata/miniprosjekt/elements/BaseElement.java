@@ -2,20 +2,24 @@ package no.livedata.miniprosjekt.elements;
 
 import java.io.Serializable;
 
-//Alle elementer bygger på dette
+/**
+ * BaseElement
+ * Basic element, for all commomn values
+ */
 public class BaseElement implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String text;
-	private int row;
-	private int column;
-	private int rows;
-	private int columns;
-	private String fill;
-	private String anchor;
+	
+	private String name; 	// elementname
+	private String text; 	// elementtext
+	private int row;		// on row
+	private int column;		// on columns
+	private int rows;		// spend over rows
+	private int columns;	// spend over columns
+	private String fill;	// fil type
+	private String anchor;	// anchor
 	
 	/**
-	 * 
+	 * Empty constructor for setting all values
 	 */
 	public BaseElement() {
 		this.name = "";
@@ -29,6 +33,7 @@ public class BaseElement implements Serializable{
 	}
 	
 	/**
+	 * Constructor for setting all values
 	 * @param name
 	 * @param text
 	 * @param row
@@ -51,7 +56,7 @@ public class BaseElement implements Serializable{
 	}
 	
 	/**
-	 * 
+	 * Constructor for copying values from existing element
 	 * @param element
 	 */
 	public BaseElement(BaseElement element) {
@@ -66,6 +71,7 @@ public class BaseElement implements Serializable{
 	}
 	
 	/**
+	 * Get name
 	 * @return the name
 	 */
 	public String getName() {
@@ -73,6 +79,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set name
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
@@ -80,6 +87,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get text
 	 * @return the text
 	 */
 	public String getText() {
@@ -87,6 +95,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set text
 	 * @param text the text to set
 	 */
 	public void setText(String text) {
@@ -94,6 +103,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get row
 	 * @return the row
 	 */
 	public int getRow() {
@@ -101,6 +111,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set row
 	 * @param row the row to set
 	 */
 	public void setRow(int row) {
@@ -108,6 +119,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get column
 	 * @return the column
 	 */
 	public int getColumn() {
@@ -115,6 +127,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set column
 	 * @param column the column to set
 	 */
 	public void setColumn(int column) {
@@ -122,6 +135,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get row
 	 * @return the rows
 	 */
 	public int getRows() {
@@ -129,6 +143,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set row
 	 * @param rows the rows to set
 	 */
 	public void setRows(int rows) {
@@ -136,6 +151,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get columns
 	 * @return the columns
 	 */
 	public int getColumns() {
@@ -143,6 +159,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set columns
 	 * @param columns the columns to set
 	 */
 	public void setColumns(int columns) {
@@ -150,6 +167,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get fill
 	 * @return the fill
 	 */
 	public String getFill() {
@@ -157,6 +175,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set fill
 	 * @param fill the fill to set
 	 */
 	public void setFill(String fill) {
@@ -164,6 +183,7 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Get anchor
 	 * @return the anchor
 	 */
 	public String getAnchor() {
@@ -171,22 +191,37 @@ public class BaseElement implements Serializable{
 	}
 
 	/**
+	 * Set anchor
 	 * @param anchor the anchor to set
 	 */
 	public void setAnchor(String anchor) {
 		this.anchor = anchor;
 	}
 
+	/**
+	 * To code
+	 * to print out code for element
+	 * should be implemented in subclass
+	 * @return empty string
+	 */
 	public String toCode () {
-		StringBuilder sb = new StringBuilder ();
-		return sb.toString();
+		return "";
 	}
 	
+	/**
+	 * create me
+	 * to print headers for element
+	 * should be implemented by subclass
+	 * @return empty sting
+	 */
 	public String createMe () {
-		StringBuilder sb = new StringBuilder ();
-		return sb.toString();
+		return "";
 	}
-
+	/**
+	 * show prop
+	 * function to show properties
+	 * subclass implements this if it has properties
+	 */
 	public void showProp() {
 		// empty if not implemented by subclass
 	}

@@ -1,17 +1,27 @@
 package no.livedata.miniprosjekt.elements;
 
-// Class to save buttons
+/**
+ * Button class
+ * for saving button elements
+ * 
+ */
 public class Button extends BaseElement {
 	private static final long serialVersionUID = 1L;
 	
-	// spesific values
-	
-	// create button from another element
+	/**
+	 * Create button from another element
+	 * @param element
+	 */
 	public Button (BaseElement element) {
-		super (element);
+		super (element); // sends element to superclass
 	}
 	
-	// converts element to code
+	/**
+	 * To code
+	 * Prints the elements code
+	 * 
+	 * @return a string with the code
+	 */
 	public String toCode() {
 	    
 		StringBuilder sb = new StringBuilder();
@@ -27,6 +37,12 @@ public class Button extends BaseElement {
 		return sb.toString();
 	}
 	
+	/**
+	 * Create me
+	 * creates header for element
+	 * 
+	 * @return string with header
+	 */
 	public String createMe() {
 		return "JButton " + getName() + " = new JButton (\"" + getText() + "\");";
 	}

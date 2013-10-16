@@ -1,20 +1,37 @@
 package no.livedata.miniprosjekt.elements;
 
 
-// Class to save labels
+/**
+ * Label class
+ * for saving label elements
+ * 
+ */
 public class Label extends BaseElement {
 	private static final long serialVersionUID = 1L;
 	
-	// create label from another element
+	/**
+	 * Create label from another element
+	 * @param element
+	 */
 	public Label (BaseElement element) {
-		super (element);
+		super (element); // send element to superclass
 	}
 	
+	/**
+	 * Constructor
+	 * Create empty label
+	 * @param num elementnumber
+	 */
 	public Label (int num) {
-		setName("new"+num);
+		setName("new"+num); // sets name
 	}
 	
-	// converts element to code
+	/**
+	 * To code
+	 * Prints the elements code
+	 * 
+	 * @return a string with the code
+	 */
 	public String toCode() {
 	    
 		StringBuilder sb = new StringBuilder();
@@ -30,6 +47,12 @@ public class Label extends BaseElement {
 		return sb.toString();
 	}
 	
+	/**
+	 * Create me
+	 * creates header for element
+	 * 
+	 * @return string with header
+	 */
 	public String createMe() {
 		return "JLabel " + getName() + " = new JLabel (\"" + getText() + "\");";
 	}

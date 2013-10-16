@@ -103,6 +103,7 @@ public class TabModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		BaseElement element = data.get(rowIndex);
+		System.out.println(columnIndex+"");
 		switch (columnIndex) {
 			case 0:
 				BaseElement newElement = null;
@@ -118,17 +119,17 @@ public class TabModel extends AbstractTableModel {
 				data.set(rowIndex, newElement);
 				break;
 			case 1:
-				element.setName ((String)aValue);
+				element.setName ((String)aValue); break;
 			case 2:
-				element.setText ((String)aValue);
+				element.setText ((String)aValue); break;
 			case 3:
-				element.setRow ((Integer)aValue);
+				element.setRow ((Integer)aValue); break;
 			case 4:
-				element.setColumn ((Integer)aValue);
+				element.setColumn ((Integer)aValue); break;
 			case 5:
-				element.setRows ((Integer)aValue);
+				element.setRows ((Integer)aValue); break;
 			case 6:
-				element.setColumns ((Integer)aValue);
+				element.setColumns ((Integer)aValue); break;
 			
 			// TODO: add for fill and anchor
 		
@@ -138,6 +139,11 @@ public class TabModel extends AbstractTableModel {
 	
 	public void clear() {
 		data.clear();
+		fireTableDataChanged();
+	}
+	
+	public void delete(int del) {
+		data.remove(del);
 		fireTableDataChanged();
 	}
 	

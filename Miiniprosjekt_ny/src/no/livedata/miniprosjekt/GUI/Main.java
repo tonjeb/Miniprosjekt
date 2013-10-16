@@ -33,45 +33,62 @@ import no.livedata.miniprosjekt.model.TabModel;
 
 
 /**
- *
+ *	The main script for the editor
  */
 public class Main extends JFrame {
-	private TabModel dataModel = new TabModel ();
-	private JTable table = new JTable (dataModel);
+	private TabModel dataModel = new TabModel (); // datamodel to store tabledata
+	private JTable table = new JTable (dataModel); // table from tablemodel
+	// element option elements
 	private String elements[] = {"JLabel", "JTextField", "JTextArea", "JButton" };
+	// selector for element type
 	private JComboBox<String> elementTypeEditor = new JComboBox<String> (elements);
-	JLabel status;
+	JLabel status; // status label
 	
-	public static ResourceBundle messages;
+	public static ResourceBundle messages; // used to get internationalicing
+	/**
+	 * Constructor
+	 * setts all up
+	 */
 	public Main () {
-		super("GridBagLayoutEditor");
-		dataModel.setTableFrame(this);
+		super(Main.messages.getString("title"));
+		
+		dataModel.setTableFrame(this); // set table frame
+		// set elemet type editor
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(elementTypeEditor));
 		
-		status = new JLabel ("");
+		// set right click menu
+		table.setComponentPopupMenu(new PopUp(this, table, dataModel));
+		// make headers not movable
+        table.getTableHeader().setReorderingAllowed(false);
+		
+		status = new JLabel (" "); // initialice status
+		// add menu and toolbar
 		Toolbar tb = new Toolbar(dataModel, table, this, this);
 		setJMenuBar (tb.menuBar);
 		add (tb.toolBar, BorderLayout.NORTH);
-		add (new JScrollPane(table), BorderLayout.CENTER);
-		status = new JLabel ("");
-		add(status, BorderLayout.SOUTH);
 		
-        table.setComponentPopupMenu(new PopUp(this, table, dataModel));
-        table.getTableHeader().setReorderingAllowed(false);
+		// add table to layout
+		add (new JScrollPane(table), BorderLayout.CENTER);
+		
+		// add status
+		add(status, BorderLayout.SOUTH);
 		
 		pack(); // makes window fit all components
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Set statustext
+	 * @param stat statustext to set
+	 */
 	public void setStatus(String stat) {
 		status.setText(stat);
 	}
 	
-	/**
-	 * 
-	 */
+
 	public static void main(String[] args) {
+		// add internationalicing
 		Locale currentLocale;
 		
 		if (args.length==2) {
@@ -80,9 +97,11 @@ public class Main extends JFrame {
 			currentLocale = new Locale (args[0]);	// språk
 		} else
 			currentLocale = Locale.getDefault();
-			
+		
+		// set current language
 		messages = ResourceBundle.getBundle ("I18N", currentLocale);
 		
+		// start the editor
 		new Main();
 	}
 
