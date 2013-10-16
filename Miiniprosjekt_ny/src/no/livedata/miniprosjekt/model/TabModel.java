@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import no.livedata.miniprosjekt.GUI.Main;
@@ -169,6 +168,7 @@ public class TabModel extends AbstractTableModel {
 		} finally {
 			fireTableDataChanged();
 		}
+		
 	}
 	
 	public Vector<BaseElement> getData () {

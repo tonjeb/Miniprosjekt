@@ -39,10 +39,11 @@ public class Toolbar {
 	private TabModel dataModel;
 	private Component comp;
 	private int num;
+	private Main main;
 	private JTable table;
 	private File curFile = null;
 	
-	public Toolbar(TabModel model, final JTable table, Component com) {
+	public Toolbar(TabModel model, final JTable table, Main main, Component com) {
 		
 		// save datamodel to modify it
 		dataModel = model;
@@ -53,8 +54,11 @@ public class Toolbar {
 		// element numbering
 		num = 0;
 		
-		// element to save current table
+		// element to save table element
 		this.table = table;
+		
+		// element to save status element
+		this.main = main;
 		
 		// where the images are located relative to the file
 		String imageBase = "../../../../";
@@ -347,6 +351,7 @@ public class Toolbar {
 		} catch (IOException ioe) {
 			System.err.println ("Feil på filhåndteringen.");
 		}
+		main.setStatus("Project opened");
 	}
 	
 	public void save() {
@@ -361,6 +366,7 @@ public class Toolbar {
 		}else{
 			saveAs();
 		}
+		main.setStatus("Project saved");
 	}
 	
 	public void saveAs() {
@@ -380,7 +386,7 @@ public class Toolbar {
 		} catch (IOException ioe) {
 			System.err.println ("Feil på filhåndteringen.");
 		}
-		
+		main.setStatus("Project saved to file");
 	}
 
 	public void saveCode() {
@@ -422,6 +428,9 @@ public class Toolbar {
 		} catch (IOException ioe) {
 			System.err.println ("Feil under skriving av rapporten.");
 		}
+
+		main.setStatus("Code written to file");
+		
 	}
 }
 

@@ -40,6 +40,7 @@ public class Main extends JFrame {
 	private JTable table = new JTable (dataModel);
 	private String elements[] = {"JLabel", "JTextField", "JTextArea", "JButton" };
 	private JComboBox<String> elementTypeEditor = new JComboBox<String> (elements);
+	JLabel status;
 	
 	public static ResourceBundle messages;
 	public Main () {
@@ -47,11 +48,12 @@ public class Main extends JFrame {
 		dataModel.setTableFrame(this);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(elementTypeEditor));
 		
-		Toolbar tb = new Toolbar(dataModel, table, this);
+		status = new JLabel ("");
+		Toolbar tb = new Toolbar(dataModel, table, this, this);
 		setJMenuBar (tb.menuBar);
 		add (tb.toolBar, BorderLayout.NORTH);
 		add (new JScrollPane(table), BorderLayout.CENTER);
-		JLabel status = new JLabel ("Status");
+		status = new JLabel ("");
 		add(status, BorderLayout.SOUTH);
 		
         table.setComponentPopupMenu(new PopUp(this, table, dataModel));
@@ -60,6 +62,10 @@ public class Main extends JFrame {
 		pack(); // makes window fit all components
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void setStatus(String stat) {
+		status.setText(stat);
 	}
 	
 	/**
