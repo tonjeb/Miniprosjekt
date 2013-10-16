@@ -1,8 +1,7 @@
 package no.livedata.miniprosjekt.GUI;
-import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
@@ -15,12 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
-import javax.naming.Context;
 import javax.swing.AbstractAction;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -44,6 +40,7 @@ public class Toolbar {
 	private Component comp;
 	private int num;
 	private JTable table;
+	private File curFile = null;
 	
 	public Toolbar(TabModel model, final JTable table, Component com) {
 		
@@ -80,7 +77,7 @@ public class Toolbar {
 		AbstractAction open = new AbstractAction (Main.messages.getString("open"),
 														new ImageIcon (getClass().getResource(imageBase + "images/OPENDOC.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				new Load();
+				load();
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -91,7 +88,7 @@ public class Toolbar {
 		AbstractAction save = new AbstractAction (Main.messages.getString("save"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVE.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				new Save();
+				save();
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -102,7 +99,7 @@ public class Toolbar {
 		AbstractAction saveAs = new AbstractAction (Main.messages.getString("saveAs"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVE.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				new SaveAs();
+				saveAs();
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -113,7 +110,7 @@ public class Toolbar {
 		AbstractAction saveJava = new AbstractAction (Main.messages.getString("saveJava"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVEJAVA.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				new SaveCode();
+				saveCode();
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -158,7 +155,7 @@ public class Toolbar {
 		AbstractAction help = new AbstractAction (Main.messages.getString("help"),
 													new ImageIcon (getClass().getResource(imageBase + "images/HELP.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				// TODO: Show help
+				JOptionPane.showMessageDialog (comp, "Find help here!", "Help", JOptionPane.PLAIN_MESSAGE);
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -168,7 +165,7 @@ public class Toolbar {
 		// This one will create a new window
 		AbstractAction about = new AbstractAction (Main.messages.getString("about")) {
 			public void actionPerformed (ActionEvent ae) {
-				// TODO: Show about
+				JOptionPane.showMessageDialog (comp, "This is all about the program!", "About", JOptionPane.PLAIN_MESSAGE);
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -337,94 +334,93 @@ public class Toolbar {
         return ret;
 	}
 	
-	class Load {
-		public Load() {
-			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-			if (chooser.showOpenDialog(comp)==JFileChooser.CANCEL_OPTION)
-				return;
-			File f = chooser.getSelectedFile();
-			try {
-				ObjectInputStream ois = new ObjectInputStream (new FileInputStream(f));
-				dataModel.load (ois);
-				ois.close ();	
-			} catch (IOException ioe) {
-				System.err.println ("Feil på filhåndteringen.");
-			}
+	public void load() {
+		JFileChooser chooser = new JFileChooser(new File("."));
+		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		if (chooser.showOpenDialog(comp)==JFileChooser.CANCEL_OPTION)
+			return;
+		File f = chooser.getSelectedFile();
+		try {
+			ObjectInputStream ois = new ObjectInputStream (new FileInputStream(f));
+			dataModel.load (ois);
+			ois.close ();	
+		} catch (IOException ioe) {
+			System.err.println ("Feil på filhåndteringen.");
 		}
 	}
 	
-	class Save {
-		public Save() {
-			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-			if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
-				return;
-			File f = chooser.getSelectedFile();
-			if (f.exists())
-				if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
-					return;
+	public void save() {
+		if (curFile != null) {
 			try {
-				ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(f));
+				ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(curFile));
 				dataModel.save (oos);
 				oos.close ();	
 			} catch (IOException ioe) {
 				System.err.println ("Feil på filhåndteringen.");
 			}
-			
+		}else{
+			saveAs();
 		}
 	}
 	
-	class SaveAs {
-		public SaveAs() {
-			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-			if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
+	public void saveAs() {
+		JFileChooser chooser = new JFileChooser(new File("."));
+		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
+			return;
+		File f = chooser.getSelectedFile();
+		if (f.exists())
+			if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
 				return;
-			File f = chooser.getSelectedFile();
-			if (f.exists())
-				if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
-					return;
-			try {
-				ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(f));
-				dataModel.save (oos);
-				oos.close ();	
-			} catch (IOException ioe) {
-				System.err.println ("Feil på filhåndteringen.");
-			}
-			
+		curFile = f;
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(f));
+			dataModel.save (oos);
+			oos.close ();	
+		} catch (IOException ioe) {
+			System.err.println ("Feil på filhåndteringen.");
 		}
+		
 	}
 
-	class SaveCode {
-		public SaveCode() {
-			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
-			if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
+	public void saveCode() {
+		JFileChooser chooser = new JFileChooser(new File("."));
+		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
+			return;
+		File f = chooser.getSelectedFile();
+		if (f.exists())
+			if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
 				return;
-			File f = chooser.getSelectedFile();
-			if (f.exists())
-				if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
-					return;
-			try {
-				BufferedWriter bw = new BufferedWriter (new FileWriter (f));
-				bw.write(	"import javax.swing.*;\r\n" + 
-							"import java.awt.*;\r\n" + 
-							"\r\n" + 
-							"/**\r\n" + 
-							" * Code generated from GridBagLayoutEditor v 0.1\r\n" + 
-							" */\r\n" + 
-							"public class tst extends JPanel {"
-						);
-				Vector<BaseElement> animals = dataModel.getData(); 
-				for (int i=0; i<animals.size(); i++) {
-					bw.write(animals.get(i).toString());
-					bw.newLine();
-				}
-				bw.close();
-			} catch (IOException ioe) {
-				System.err.println ("Feil under skriving av rapporten.");
+		try {
+			BufferedWriter bw = new BufferedWriter (new FileWriter (f));
+			String fn = f.getName().replaceAll("\\.[^.]*$", "");
+			bw.write(	"import javax.swing.*;\r\n" + 
+						"import java.awt.*;\r\n" + 
+						"\r\n" + 
+						"/**\r\n" + 
+						" * Code generated from GridBagLayoutEditor v 0.1\r\n" + 
+						" */\r\n" + 
+						"public class " + fn + " extends JPanel {\r\n"
+					);
+			
+			StringBuilder sb = new StringBuilder();
+			Vector<BaseElement> elements = dataModel.getData(); 
+			for (int i=0; i<elements.size(); i++) {
+				bw.write(elements.get(i).createMe());
+				bw.newLine();
+				sb.append(elements.get(i).toCode());
 			}
+			bw.write("public " + fn + " () {\r\n" + 
+					"    GridBagLayout layout = new GridBagLayout ();\r\n" + 
+					"    GridBagConstraints gbc = new GridBagConstraints();\r\n" + 
+					"    setLayout (layout);\r\n");
+			bw.write(sb.toString());
+			bw.write(	"}\r\n" +
+						"}");
+			bw.close();
+		} catch (IOException ioe) {
+			System.err.println ("Feil under skriving av rapporten.");
 		}
 	}
 }

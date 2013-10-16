@@ -3,6 +3,8 @@ package no.livedata.miniprosjekt.GUI;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +22,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
@@ -49,6 +53,10 @@ public class Main extends JFrame {
 		add (new JScrollPane(table), BorderLayout.CENTER);
 		JLabel status = new JLabel ("Status");
 		add(status, BorderLayout.SOUTH);
+		
+        table.setComponentPopupMenu(new PopUp(this, table, dataModel));
+        table.getTableHeader().setReorderingAllowed(false);
+		
 		pack(); // makes window fit all components
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

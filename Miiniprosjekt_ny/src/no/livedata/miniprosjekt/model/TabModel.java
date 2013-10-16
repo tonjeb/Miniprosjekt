@@ -174,4 +174,8 @@ public class TabModel extends AbstractTableModel {
 	public Vector<BaseElement> getData () {
 		return data;
 	}
+	
+	public BaseElement getRow(int row) {
+		return data.get(row);
+	}
 }

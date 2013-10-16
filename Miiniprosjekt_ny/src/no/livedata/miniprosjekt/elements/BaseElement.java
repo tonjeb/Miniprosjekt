@@ -20,12 +20,12 @@ public class BaseElement implements Serializable{
 	public BaseElement() {
 		this.name = "";
 		this.text = "";
-		this.row = 0;
-		this.column = 0;
-		this.rows = 0;
-		this.columns = 0;
-		this.fill = "";
-		this.anchor = "";
+		this.row = 1;
+		this.column = 1;
+		this.rows = 1;
+		this.columns = 1;
+		this.fill = "NONE";
+		this.anchor = "CENTER";
 	}
 	
 	/**
@@ -177,8 +177,17 @@ public class BaseElement implements Serializable{
 		this.anchor = anchor;
 	}
 
-	public String toString () {
+	public String toCode () {
 		StringBuilder sb = new StringBuilder ();
 		return sb.toString();
+	}
+	
+	public String createMe () {
+		StringBuilder sb = new StringBuilder ();
+		return sb.toString();
+	}
+
+	public void showProp() {
+		// empty if not implemented by subclass
 	}
 }
