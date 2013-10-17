@@ -32,17 +32,25 @@ import no.livedata.miniprosjekt.model.TabModel;
 
 public class Toolbar {
 	
-	
+	// the bars to be shown
 	public JMenuBar menuBar;
 	public JToolBar toolBar;
 	
-	private TabModel dataModel;
-	private Component comp;
-	private int num;
-	private Main main;
-	private JTable table;
-	private File curFile = null;
+	private TabModel dataModel; // datamodel to use
+	private Component comp; 	// component to work in
+	private int num; 			// element count
+	private Main main; 			// main elemet to call status 
+	private JTable table;		// table to work on
+	private File curFile = null;// save save path
 	
+	/**
+	 * Constructor
+	 * creates the menus
+	 * @param model the datamodel
+	 * @param table the table to work on
+	 * @param main the main class
+	 * @param com the component to work on
+	 */
 	public Toolbar(TabModel model, final JTable table, Main main, Component com) {
 		
 		// save datamodel to modify it
@@ -66,110 +74,109 @@ public class Toolbar {
 		// FILE MENU
 		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// NEW
 		AbstractAction createNew = new AbstractAction (Main.messages.getString("new"),
 														new ImageIcon (getClass().getResource(imageBase + "images/NEW.GIF"))) {
 			public void actionPerformed (ActionEvent ae) {
-				dataModel.clear();
+				dataModel.clear(); // clear all data
 			}
 		};
 		// Setting the mnemonic key used in menus
 		createNew.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("newM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// OPEN
 		AbstractAction open = new AbstractAction (Main.messages.getString("open"),
 														new ImageIcon (getClass().getResource(imageBase + "images/OPENDOC.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				load();
+				load(); // load data from file
 			}
 		};
 		// Setting the mnemonic key used in menues
 		open.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("openM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// SAVE
 		AbstractAction save = new AbstractAction (Main.messages.getString("save"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVE.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				save();
+				save(); // save to file
 			}
 		};
 		// Setting the mnemonic key used in menues
 		save.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("saveM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// SAVE AS
 		AbstractAction saveAs = new AbstractAction (Main.messages.getString("saveAs"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVE.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				saveAs();
+				saveAs(); // save as to file
 			}
 		};
 		// Setting the mnemonic key used in menues
 		saveAs.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("saveAsM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// SAVE CODE (JAVA)
 		AbstractAction saveJava = new AbstractAction (Main.messages.getString("saveJava"),
 														new ImageIcon (getClass().getResource(imageBase + "images/SAVEJAVA.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				saveCode();
+				saveCode(); // save the code
 			}
 		};
 		// Setting the mnemonic key used in menues
 		saveJava.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("saveJavaM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// EXIT
 		AbstractAction exit = new AbstractAction (Main.messages.getString("exit")) {
 			public void actionPerformed (ActionEvent ae) {
-				System.exit (0);
+				System.exit (0); // close the application
 			}
 		};
 		// Setting the mnemonic key used in menues
 		exit.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("exitM").toCharArray()[0]));
 		
+		
 		// EDIT MENU
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// ADD
 		AbstractAction add = new AbstractAction (Main.messages.getString("add"),
 													new ImageIcon (getClass().getResource(imageBase + "images/NEWROW.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				dataModel.addElement(num++);
+				dataModel.addElement(num++); // add new row
 			}
 		};
 		// Setting the mnemonic key used in menues
 		add.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("addM").toCharArray()[0]));
 		
-		/*// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
-		AbstractAction pref = new AbstractAction (Main.messages.getString("pref")) {
-			public void actionPerformed (ActionEvent ae) {
-				
-			}
-		};
-		// Setting the mnemonic key used in menues
-		createNew.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("prefM").toCharArray()[0]));
-		*/
 		
 		// HELP MENU
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// HELP
 		AbstractAction help = new AbstractAction (Main.messages.getString("help"),
 													new ImageIcon (getClass().getResource(imageBase + "images/HELP.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				JOptionPane.showMessageDialog (comp, "Find help here!", "Help", JOptionPane.PLAIN_MESSAGE);
+				// create help dialog
+				JOptionPane.showMessageDialog (comp, Main.messages.getString("helphere"), Main.messages.getString("dhelp"), JOptionPane.PLAIN_MESSAGE);
 			}
 		};
 		// Setting the mnemonic key used in menues
 		help.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("helpM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// ABOUT
 		AbstractAction about = new AbstractAction (Main.messages.getString("about")) {
 			public void actionPerformed (ActionEvent ae) {
-				JOptionPane.showMessageDialog (comp, "This is all about the program!", "About", JOptionPane.PLAIN_MESSAGE);
+				// create about dialog
+				JOptionPane.showMessageDialog (comp, Main.messages.getString("abouthere"), Main.messages.getString("dabout"), JOptionPane.PLAIN_MESSAGE);
 			}
 		};
 		// Setting the mnemonic key used in menues
@@ -177,11 +184,11 @@ public class Toolbar {
 		
 		// TOOLBAR MENUS
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// MOVE ROW UP
 		AbstractAction up = new AbstractAction (Main.messages.getString("up"),
 													new ImageIcon (getClass().getResource(imageBase + "images/MoveRowUp.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				try{
+				try{ // try to move selected row up
 					int rowToMove = table.convertRowIndexToModel( table.getSelectedRow() );
 					if (rowToMove != 0)
 						dataModel.moveRow(rowToMove,rowToMove-1); 
@@ -193,12 +200,13 @@ public class Toolbar {
 		// Setting the mnemonic key used in menues
 		up.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("upM").toCharArray()[0]));
 		
+		
 		// AbstractAction contains information used in both the menu and in the toolbar
-		// This one will create a new window
+		// MOVE ROW DOWN
 		AbstractAction down = new AbstractAction (Main.messages.getString("down"),
 													new ImageIcon (getClass().getResource(imageBase + "images/MoveRowDown.gif"))) {
 			public void actionPerformed (ActionEvent ae) {
-				try{
+				try{ // try to move selected row down
 					int rowToMove = table.convertRowIndexToModel( table.getSelectedRow() );
 					if (rowToMove < dataModel.getData().size()-1)
 						dataModel.moveRow(rowToMove, rowToMove+1);
@@ -210,6 +218,7 @@ public class Toolbar {
 		// Setting the mnemonic key used in menues
 		down.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("downM").toCharArray()[0]));
 
+		
 		// Create a new menu bar
 		menuBar = new JMenuBar ();
 		JMenu fileMenu = new JMenu (Main.messages.getString("file"));
@@ -228,45 +237,34 @@ public class Toolbar {
 		createNewItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("newM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		JMenuItem openItem = new JMenuItem (open);
-		// The KeyEvent object defines all possible keystrokes, handy for function keys
 		openItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("openM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		JMenuItem saveItem = new JMenuItem (save);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		saveItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("saveM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		JMenuItem saveAsItem = new JMenuItem (saveAs);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		saveAsItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("saveM").toCharArray()[0], InputEvent.SHIFT_DOWN_MASK));
 		
 		JMenuItem saveJavaItem = new JMenuItem (saveJava);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		saveJavaItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("saveJavaM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		JMenuItem exitItem = new JMenuItem (exit);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		exitItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("exitM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		// EDIT MENU
 		JMenuItem addItem = new JMenuItem (add);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		addItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("addM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
-		/*JMenuItem prefItem = new JMenuItem (pref);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
-		prefItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("prefM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		*/
-		
+
 		// EDIT MENU
 		JMenuItem helpItem = new JMenuItem (help);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		helpItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("helpM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 		
 		JMenuItem aboutItem = new JMenuItem (about);
-		// Alt+F4 is close window on windows, but not on other OS's, probably shouldn't do this
 		aboutItem.setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("aboutM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
 				
 		
+		// add all menu items
 		fileMenu.add (createNewItem);
 		fileMenu.add (openItem);
 		fileMenu.add (saveItem);
@@ -278,18 +276,16 @@ public class Toolbar {
 		//
 		editMenu.add (addItem);
 		editMenu.addSeparator();
-		//editMenu.add(prefItem);
 		//
 		helpMenu.add (helpItem);
 		helpMenu.add (aboutItem);
 		menuBar.add (fileMenu);
 		menuBar.add (editMenu);
-		// Adding some glue, this puts the remaining menu items to the right
-		//menuBar.add (Box.createHorizontalGlue());
+		//
 		menuBar.add (helpMenu);
 
 
-			
+		// add to toolbar
 		toolBar = new JToolBar ();
 		toolBar.add (createNew);
 		toolBar.add (open);
@@ -305,8 +301,14 @@ public class Toolbar {
 			
 	}
 	
+	/**
+	 * Converts character to keyEvent int
+	 * @param character to convert
+	 * @return KeyEvent int
+	 */
 	public int CharToKey(char character) {
 		int ret = 0;
+		// find right character
         switch (Character.toLowerCase(character)) {
 	        case 'a': ret = KeyEvent.VK_A; break;
 	        case 'b': ret = KeyEvent.VK_B; break;
@@ -335,72 +337,98 @@ public class Toolbar {
 	        case 'y': ret = KeyEvent.VK_Y; break;
 	        case 'z': ret = KeyEvent.VK_Z; break;
         }
-        return ret;
+        return ret; // return the int
 	}
 	
+	/**
+	 * Load file
+	 */
 	public void load() {
+		// choose file to open
 		JFileChooser chooser = new JFileChooser(new File(""));
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		// if canceled
 		if (chooser.showOpenDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;
+		// get file
 		File f = chooser.getSelectedFile();
-		try {
+		try {// try to read the file
 			ObjectInputStream ois = new ObjectInputStream (new FileInputStream(f));
-			dataModel.load (ois);
+			dataModel.load (ois); // send filecontent to the datamodel
 			ois.close ();	
 		} catch (IOException ioe) {
-			System.err.println ("Feil på filhåndteringen.");
+			System.err.println (Main.messages.getString("failRead"));
 		}
-		main.setStatus("Project opened");
+		main.setStatus(Main.messages.getString("popen")); // set status
 	}
 	
+	/**
+	 * Save to existing file
+	 */
 	public void save() {
-		if (curFile != null) {
-			try {
+		if (curFile != null) { // if project is saved
+			try { // save to current file
 				ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(curFile));
-				dataModel.save (oos);
+				dataModel.save (oos); // ask datamodel to save to file
 				oos.close ();	
 			} catch (IOException ioe) {
-				System.err.println ("Feil på filhåndteringen.");
+				System.err.println (Main.messages.getString("failWrite"));
 			}
 		}else{
-			saveAs();
+			saveAs(); // save project as
 		}
-		main.setStatus("Project saved");
+		main.setStatus(Main.messages.getString("psaved"));
 	}
 	
+	/**
+	 * Save project to file
+	 */
 	public void saveAs() {
+		// get file
 		JFileChooser chooser = new JFileChooser(new File(""));
+		// only accept files
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		// if canceled
 		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;
+		// get selected file
 		File f = chooser.getSelectedFile();
-		if (f.exists())
-			if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
+		if (f.exists()) // if selected file exists
+			// ask user before overwrite
+			if (JOptionPane.showConfirmDialog(comp, Main.messages.getString("filefound"), Main.messages.getString("confirm"), JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
 				return;
-		curFile = f;
-		try {
+		curFile = f; // set current file
+		try { // try to write to file
 			ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream(f));
-			dataModel.save (oos);
+			dataModel.save (oos); // ask dataModel to write to file
 			oos.close ();	
 		} catch (IOException ioe) {
-			System.err.println ("Feil på filhåndteringen.");
+			System.err.println (Main.messages.getString("failWrite"));
 		}
-		main.setStatus("Project saved to file");
+		main.setStatus(Main.messages.getString("psaved"));
 	}
 
+	/**
+	 * Save code to file
+	 */
 	public void saveCode() {
+		// get file
 		JFileChooser chooser = new JFileChooser(new File(""));
+		// only files are selectable
 		chooser.setFileSelectionMode (JFileChooser.FILES_ONLY);
+		// if canceled
 		if (chooser.showSaveDialog(comp)==JFileChooser.CANCEL_OPTION)
 			return;
+		// get selected file
 		File f = chooser.getSelectedFile();
-		if (f.exists())
-			if (JOptionPane.showConfirmDialog(comp, "Filen finnes, overskrive", "Bekreft", JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
+		if (f.exists()) // file exists
+			// ask user to overwrite
+			if (JOptionPane.showConfirmDialog(comp, Main.messages.getString("filefound"), Main.messages.getString("confirm"), JOptionPane.YES_NO_OPTION)!=JOptionPane.YES_OPTION)
 				return;
-		try {
+		try {// try to write to file
 			BufferedWriter bw = new BufferedWriter (new FileWriter (f));
-			String fn = f.getName().replaceAll("\\.[^.]*$", "");
+			String fn = f.getName().replaceAll("\\.[^.]*$", ""); // classname
+			//  write initial code to file
 			bw.write(	"import javax.swing.*;\r\n" + 
 						"import java.awt.*;\r\n" + 
 						"\r\n" + 
@@ -411,25 +439,27 @@ public class Toolbar {
 					);
 			
 			StringBuilder sb = new StringBuilder();
-			Vector<BaseElement> elements = dataModel.getData(); 
-			for (int i=0; i<elements.size(); i++) {
-				bw.write(elements.get(i).createMe());
+			Vector<BaseElement> elements = dataModel.getData(); // get all data
+			for (int i=0; i<elements.size(); i++) { // go through the data
+				bw.write(elements.get(i).createMe()); // write header
 				bw.newLine();
-				sb.append(elements.get(i).toCode());
+				sb.append(elements.get(i).toCode()); // save the code
 			}
+			// write constructor start
 			bw.write("public " + fn + " () {\r\n" + 
 					"    GridBagLayout layout = new GridBagLayout ();\r\n" + 
 					"    GridBagConstraints gbc = new GridBagConstraints();\r\n" + 
 					"    setLayout (layout);\r\n");
-			bw.write(sb.toString());
+			bw.write(sb.toString()); // write all code
+			// write endings
 			bw.write(	"}\r\n" +
 						"}");
-			bw.close();
+			bw.close(); // close file
 		} catch (IOException ioe) {
-			System.err.println ("Feil under skriving av rapporten.");
+			System.err.println (Main.messages.getString("failWrite"));
 		}
 
-		main.setStatus("Code written to file");
+		main.setStatus(Main.messages.getString("pcodesaved"));
 		
 	}
 }
