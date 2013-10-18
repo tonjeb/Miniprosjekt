@@ -163,8 +163,8 @@ public class TextArea extends BaseElement {
 		sb.append("gbc.gridy = "); sb.append(getColumn()); sb.append(";\r\n");
 		sb.append("gbc.gridwidth = "); sb.append(getRows()); sb.append(";\r\n");
 		sb.append("gbc.gridheight = "); sb.append(getColumns()); sb.append(";\r\n");
-		sb.append("gbc.anchor = java.awt.GridBagConstraints."); sb.append(getAnchor()); sb.append(";\r\n");
-		sb.append("gbc.fill = java.awt.GridBagConstraints."); sb.append(getFill()); sb.append(";\r\n");
+		sb.append("gbc.anchor = java.awt.GridBagConstraints."); sb.append(getAnchorName()); sb.append(";\r\n");
+		sb.append("gbc.fill = java.awt.GridBagConstraints."); sb.append(getFillName()); sb.append(";\r\n");
 		String sName = getName(); // temp variable for storing scrollname
 		if (isScroll()) { // add scroll if set
 			sName = getName() + "ScrollPane";
@@ -229,7 +229,7 @@ public class TextArea extends BaseElement {
 		            BorderFactory.createTitledBorder(Main.messages.getString("prop")),
 		            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		    GridBagConstraints gbc;
-		    
+
 		    // columns
 		    gbc = createGbc(0, 0);
 		    p.add(new JLabel(Main.messages.getString("columns"), JLabel.LEFT), gbc); // add label

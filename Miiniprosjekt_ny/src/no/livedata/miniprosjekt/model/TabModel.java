@@ -146,7 +146,6 @@ public class TabModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		BaseElement element = data.get(rowIndex);
-		System.out.println(columnIndex+"");
 		switch (columnIndex) {
 			case 0:
 				BaseElement newElement = null;
@@ -173,8 +172,10 @@ public class TabModel extends AbstractTableModel {
 				element.setRows ((Integer)aValue); break;
 			case 6:
 				element.setColumns ((Integer)aValue); break;
-			
-			// TODO: add for fill and anchor
+			case 7:
+				element.setFill ((String)aValue); break;
+			case 8:
+				element.setAnchor ((String)aValue); break;
 		
 		}
 		// update cell

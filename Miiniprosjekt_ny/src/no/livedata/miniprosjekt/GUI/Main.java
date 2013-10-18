@@ -1,34 +1,20 @@
 package no.livedata.miniprosjekt.GUI;
 
+
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
+import javax.swing.table.TableColumn;
 
+import no.livedata.miniprosjekt.elements.BaseElement;
 import no.livedata.miniprosjekt.model.TabModel;
 
 
@@ -60,6 +46,33 @@ public class Main extends JFrame {
 		table.setComponentPopupMenu(new PopUp(this, table, dataModel));
 		// make headers not movable
         table.getTableHeader().setReorderingAllowed(false);
+        
+        // Set up drop down box as editor and use image as renderer for fill
+        JComboBox fillTypes = new JComboBox (BaseElement.getFills());
+        fillTypes.setRenderer (new FillDropDownRenderer ());
+        TableColumn fillColumn = table.getColumnModel().getColumn (7);
+        fillColumn.setCellEditor (new DefaultCellEditor(fillTypes));
+        fillColumn.setCellRenderer (new FillTypeRenderer());
+        
+        // Set up drop down box as editor and use image as renderer for anchor
+        JComboBox anchorTypes = new JComboBox (BaseElement.getAnchors());
+        anchorTypes.setRenderer (new AnchorDropDownRenderer ());
+        TableColumn anchorColumn = table.getColumnModel().getColumn (8);
+        anchorColumn.setCellEditor (new DefaultCellEditor(anchorTypes));
+        anchorColumn.setCellRenderer (new AnchorTypeRenderer());
+        
+        // Lock the with of the columns
+        table.getColumnModel().getColumn(0).setPreferredWidth(70);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(70);
+        table.getColumnModel().getColumn(4).setPreferredWidth(70);
+        table.getColumnModel().getColumn(5).setPreferredWidth(70);
+        table.getColumnModel().getColumn(6).setPreferredWidth(70);
+        table.getColumnModel().getColumn(7).setPreferredWidth(100);
+        table.getColumnModel().getColumn(8).setPreferredWidth(80);
+    	// dont automatically resize table
+        table.setAutoResizeMode (JTable.AUTO_RESIZE_OFF);
 		
 		status = new JLabel (" "); // initialice status
 		// add menu and toolbar

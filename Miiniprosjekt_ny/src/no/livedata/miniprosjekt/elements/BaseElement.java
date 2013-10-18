@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -36,7 +37,7 @@ import no.livedata.miniprosjekt.GUI.Main;
  * BaseElement
  * Basic element, for all commomn values
  */
-public class BaseElement implements Serializable{
+public class BaseElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String name; 	// elementname
@@ -45,8 +46,15 @@ public class BaseElement implements Serializable{
 	private int column;		// on columns
 	private int rows;		// spend over rows
 	private int columns;	// spend over columns
-	private String fill;	// fil type
-	private String anchor;	// anchor
+	private int fill;	// fil type
+	private int anchor;	// anchor
+	
+	// arrays with fill and anchor options and images
+	private static String[] fills = { "NONE", "HORIZONTAL", "VERTICAL", "BOTH" };
+	public static String[] fillsImg = { "skaler_ingen.png", "skaler_horisontalt.png", "skaler_vertikalt.png", "skaler_begge.png" };
+	
+	private static String[] anchors = { "CENTER", "NORTH", "NORTHEAST", "EAST", "SOUTHEAST", "SOUTH", "SOUTHWEST", "WEST", "NORTHWEST"  };
+	public static String[] anchorsImg = { "anchor_center_shifted.png", "anchor_north_shifted.png", "anchor_northeast_shifted.png", "anchor_east_shifted.png", "anchor_southeast_shifted.png", "anchor_south_shifted.png", "anchor_southwest.png", "anchor_west.png", "anchor_northwest.png" };
 	
 	/**
 	 * Empty constructor for setting all values
@@ -58,8 +66,8 @@ public class BaseElement implements Serializable{
 		this.column = 1;
 		this.rows = 1;
 		this.columns = 1;
-		this.fill = "NONE";
-		this.anchor = "CENTER";
+		this.fill = 0;
+		this.anchor = 0;
 	}
 	
 	/**
@@ -74,7 +82,7 @@ public class BaseElement implements Serializable{
 	 * @param anchor
 	 */
 	public BaseElement(String name, String text, int row, int column, int rows,
-			int columns, String fill, String anchor) {
+			int columns, int fill, int anchor) {
 		this.name = name;
 		this.text = text;
 		this.row = row;
@@ -98,6 +106,38 @@ public class BaseElement implements Serializable{
 		this.columns = element.columns;
 		this.fill = element.fill;
 		this.anchor = element.anchor;
+	}
+	
+	/**
+	 * Get all fill options
+	 * @return String[] with fill options
+	 */
+	public static String[] getFills () {
+	  return fills;
+	}
+	
+	/**
+	 * Get fill image
+	 * @return String path to image
+	 */
+	public String getFillImg () {
+		return fillsImg[fill];
+	}
+	
+	/**
+	 * Get all anchor options
+	 * @return String[] with anchor options
+	 */
+	public static String[] getAnchors () {
+	  return anchors;
+	}
+	
+	/**
+	 * Get anchor image
+	 * @return String path to image
+	 */
+	public String getAnchorImg () {
+		return anchorsImg[anchor];
 	}
 	
 	/**
@@ -200,32 +240,56 @@ public class BaseElement implements Serializable{
 	 * Get fill
 	 * @return the fill
 	 */
-	public String getFill() {
+	public int getFill() {
 		return fill;
+	}
+	
+	/**
+	 * Get fill name
+	 * @return the fill name
+	 */
+	public String getFillName() {
+		return fills[fill];
 	}
 
 	/**
 	 * Set fill
-	 * @param fill the fill to set
+	 * @param aValue the fill to set
 	 */
-	public void setFill(String fill) {
-		this.fill = fill;
+	public void setFill(String value) {
+		for (int i=0; i<fills.length; i++)
+		      if (value.equals (fills[i])) {
+		        this.fill = i;
+		        return;
+		      }
 	}
 
 	/**
 	 * Get anchor
 	 * @return the anchor
 	 */
-	public String getAnchor() {
+	public int getAnchor() {
 		return anchor;
+	}
+	
+	/**
+	 * Get anchor name
+	 * @return the anchor name
+	 */
+	public String getAnchorName() {
+		return anchors[anchor];
 	}
 
 	/**
 	 * Set anchor
 	 * @param anchor the anchor to set
 	 */
-	public void setAnchor(String anchor) {
-		this.anchor = anchor;
+	public void setAnchor(String value) {
+		for (int i=0; i<anchors.length; i++)
+		      if (value.equals (anchors[i])) {
+		        this.anchor = i;
+		        return;
+		      }
 	}
 
 	/**
@@ -256,207 +320,8 @@ public class BaseElement implements Serializable{
 	public void showProp() {
 		// empty if not implemented by subclass
 	}
-	
-	
-	// FILL MENU
-	
-	// AbstractAction contains information used in both the menu and in the toolbar
-	// VERTICAL
-	AbstractAction verticalFill = new AbstractAction (Main.messages.getString("vertical")) {
-		public void actionPerformed (ActionEvent ae) {
-			gbc.fill = GridBagConstraints.VERTICAL;
-		}
-	};
-	// Setting the mnemonic key used in menus
-	//verticalFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("verticalM").toCharArray()[0]));
-	
-	
-	// AbstractAction contains information used in both the menu and in the toolbar
-	// HORIZONTAL
-	AbstractAction horizontalFill = new AbstractAction (Main.messages.getString("horizontal")) {
-		public void actionPerformed (ActionEvent ae) {
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-		}
-	};
-	// Setting the mnemonic key used in menues
-	//horizontalFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("horizontalM").toCharArray()[0]));
-	
-	
-	// AbstractAction contains information used in both the menu and in the toolbar
-	// BOTH
-	AbstractAction bothFill = new AbstractAction (Main.messages.getString("both")) {
-		public void actionPerformed (ActionEvent ae) {
-			gbc.fill = GridBagConstraints.BOTH;
-		}
-	};
-	// Setting the mnemonic key used in menues
-	//bothFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("bothM").toCharArray()[0]));
-	
-	// ANCHOR MENU
-	
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// NORTH EAST
-			AbstractAction northEast = new AbstractAction (Main.messages.getString("northEast")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.NORTHEAST;
-				}
-			};
-			// Setting the mnemonic key used in menus
-			//northEast.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northEastM").toCharArray()[0]));
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// EAST
-			AbstractAction east = new AbstractAction (Main.messages.getString("east")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.EAST;
-				}
-			};
-			// Setting the mnemonic key used in menues
-			//east.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("eastM").toCharArray()[0]));
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// NORTH
-			AbstractAction north = new AbstractAction (Main.messages.getString("north")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.NORTH;
-				}
-			};
-			// Setting the mnemonic key used in menues
-//			north.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northM").toCharArray()[0]));
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// WEST
-			AbstractAction west = new AbstractAction (Main.messages.getString("west")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.WEST;
-				}
-			};
-			// Setting the mnemonic key used in menues
-//						west.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("westM").toCharArray()[0]));
-						
-						
-						
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// SOUTH
-			AbstractAction south = new AbstractAction (Main.messages.getString("south")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.SOUTH;
-				}
-			};
-			// Setting the mnemonic key used in menues
-	//		south.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southM").toCharArray()[0]));
-			
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// NORTH WEST
-			AbstractAction northWest = new AbstractAction (Main.messages.getString("northWest")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.NORTHWEST;
-				}
-			};
-			// Setting the mnemonic key used in menues
-//			northWest.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northWestM").toCharArray()[0]));
-			
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// SOUTH EAST
-			AbstractAction southEast = new AbstractAction (Main.messages.getString("southEast")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.SOUTHEAST;
-				}
-			};
-			// Setting the mnemonic key used in menues
-	//		southEast.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southEastM").toCharArray()[0]));
-			
-			
-			
-			// AbstractAction contains information used in both the menu and in the toolbar
-			// SOUT WEST
-			AbstractAction southWest = new AbstractAction (Main.messages.getString("southWest")) {
-				public void actionPerformed (ActionEvent ae) {
-					gbc.anchor = GridBagConstraints.SOUTHWEST;
-				}
-			};
-			
-					
-			// Setting the mnemonic key used in menues
-			//southWest.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southWestM").toCharArray()[0]));
-			
-					
-	
-	
-// Menu bar
-	menuBar = new JMenuBar ();
-	JMenu fillMenu = new JMenu (Main.messages.getString("fill"));
-	fillMenu.setMnemonic (Main.messages.getString("fillM").toCharArray()[0]);
-	JMenu anchorMenu = new JMenu (Main.messages.getString("anchor"));
-	anchorMenu.setMnemonic (Main.messages.getString("anchorM").toCharArray()[0]);
 
-// Anchor dropdown
-		// Adding the abstract action objects as menu items
-		JMenuItem NORTH_EAST_LITERAL = new JMenuItem (northEast);
-		// Accelerator keys enable advanced users to access menu items without navigating the menu
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northEastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem EAST_LITERAL = new JMenuItem (east);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("eastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem NORTH_LITERAL = new JMenuItem (north);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem WEST_LITERAL = new JMenuItem (west);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("westM").toCharArray()[0], InputEvent.SHIFT_DOWN_MASK));
-		
-		JMenuItem SOUTH_LITERAL = new JMenuItem (south);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem NORTH_WEST_LITERAL = new JMenuItem (northWest);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northWestM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem SOUTH_EAST_LITERAL = new JMenuItem (southEast);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southEastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-		
-		JMenuItem SOUTH_WEST_LITERAL = new JMenuItem (southWest);
-		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southWestM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-
-		
-		// Fill dropdown
-				// Adding the abstract action objects as menu items
-				JMenuItem  = new JMenuItem (vertical);
-				// Accelerator keys enable advanced users to access menu items without navigating the menu
-				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("verticalM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-				
-				JMenuItem  = new JMenuItem (horizontal);
-				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("horizontalM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-				
-				JMenuItem  = new JMenuItem (both);
-				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("bothM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
-
-				
-
-//add all menu items
-
-		fillMenu.add (vertical);
-		fillMenu.add (horizontal);
-		fillMenu.add (both);
-		//
-		anchorMenu.add (northEast);
-		anchorMenu.add (east);
-		anchorMenu.add (north);
-		anchorMenu.add (west);
-		anchorMenu.add (south);
-		anchorMenu.add (northWest);
-		anchorMenu.add (southEast);
-		anchorMenu.add (southWest);
-		
-		}
-
-};
+}
 
 
 
