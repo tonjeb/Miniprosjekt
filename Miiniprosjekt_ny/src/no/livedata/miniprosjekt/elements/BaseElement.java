@@ -1,6 +1,36 @@
 package no.livedata.miniprosjekt.elements;
 
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Vector;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+
+import no.livedata.miniprosjekt.elements.BaseElement;
+import no.livedata.miniprosjekt.model.TabModel;
 import java.io.Serializable;
+
+import no.livedata.miniprosjekt.GUI.Main;
 
 /**
  * BaseElement
@@ -222,7 +252,212 @@ public class BaseElement implements Serializable{
 	 * function to show properties
 	 * subclass implements this if it has properties
 	 */
+	
 	public void showProp() {
 		// empty if not implemented by subclass
 	}
-}
+	
+	
+	// FILL MENU
+	
+	// AbstractAction contains information used in both the menu and in the toolbar
+	// VERTICAL
+	AbstractAction verticalFill = new AbstractAction (Main.messages.getString("vertical")) {
+		public void actionPerformed (ActionEvent ae) {
+			gbc.fill = GridBagConstraints.VERTICAL;
+		}
+	};
+	// Setting the mnemonic key used in menus
+	//verticalFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("verticalM").toCharArray()[0]));
+	
+	
+	// AbstractAction contains information used in both the menu and in the toolbar
+	// HORIZONTAL
+	AbstractAction horizontalFill = new AbstractAction (Main.messages.getString("horizontal")) {
+		public void actionPerformed (ActionEvent ae) {
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+		}
+	};
+	// Setting the mnemonic key used in menues
+	//horizontalFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("horizontalM").toCharArray()[0]));
+	
+	
+	// AbstractAction contains information used in both the menu and in the toolbar
+	// BOTH
+	AbstractAction bothFill = new AbstractAction (Main.messages.getString("both")) {
+		public void actionPerformed (ActionEvent ae) {
+			gbc.fill = GridBagConstraints.BOTH;
+		}
+	};
+	// Setting the mnemonic key used in menues
+	//bothFill.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("bothM").toCharArray()[0]));
+	
+	// ANCHOR MENU
+	
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// NORTH EAST
+			AbstractAction northEast = new AbstractAction (Main.messages.getString("northEast")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.NORTHEAST;
+				}
+			};
+			// Setting the mnemonic key used in menus
+			//northEast.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northEastM").toCharArray()[0]));
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// EAST
+			AbstractAction east = new AbstractAction (Main.messages.getString("east")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.EAST;
+				}
+			};
+			// Setting the mnemonic key used in menues
+			//east.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("eastM").toCharArray()[0]));
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// NORTH
+			AbstractAction north = new AbstractAction (Main.messages.getString("north")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.NORTH;
+				}
+			};
+			// Setting the mnemonic key used in menues
+//			north.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northM").toCharArray()[0]));
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// WEST
+			AbstractAction west = new AbstractAction (Main.messages.getString("west")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.WEST;
+				}
+			};
+			// Setting the mnemonic key used in menues
+//						west.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("westM").toCharArray()[0]));
+						
+						
+						
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// SOUTH
+			AbstractAction south = new AbstractAction (Main.messages.getString("south")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.SOUTH;
+				}
+			};
+			// Setting the mnemonic key used in menues
+	//		south.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southM").toCharArray()[0]));
+			
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// NORTH WEST
+			AbstractAction northWest = new AbstractAction (Main.messages.getString("northWest")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.NORTHWEST;
+				}
+			};
+			// Setting the mnemonic key used in menues
+//			northWest.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("northWestM").toCharArray()[0]));
+			
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// SOUTH EAST
+			AbstractAction southEast = new AbstractAction (Main.messages.getString("southEast")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.SOUTHEAST;
+				}
+			};
+			// Setting the mnemonic key used in menues
+	//		southEast.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southEastM").toCharArray()[0]));
+			
+			
+			
+			// AbstractAction contains information used in both the menu and in the toolbar
+			// SOUT WEST
+			AbstractAction southWest = new AbstractAction (Main.messages.getString("southWest")) {
+				public void actionPerformed (ActionEvent ae) {
+					gbc.anchor = GridBagConstraints.SOUTHWEST;
+				}
+			};
+			
+					
+			// Setting the mnemonic key used in menues
+			//southWest.putValue(AbstractAction.MNEMONIC_KEY, CharToKey(Main.messages.getString("southWestM").toCharArray()[0]));
+			
+					
+	
+	
+// Menu bar
+	menuBar = new JMenuBar ();
+	JMenu fillMenu = new JMenu (Main.messages.getString("fill"));
+	fillMenu.setMnemonic (Main.messages.getString("fillM").toCharArray()[0]);
+	JMenu anchorMenu = new JMenu (Main.messages.getString("anchor"));
+	anchorMenu.setMnemonic (Main.messages.getString("anchorM").toCharArray()[0]);
+
+// Anchor dropdown
+		// Adding the abstract action objects as menu items
+		JMenuItem NORTH_EAST_LITERAL = new JMenuItem (northEast);
+		// Accelerator keys enable advanced users to access menu items without navigating the menu
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northEastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem EAST_LITERAL = new JMenuItem (east);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("eastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem NORTH_LITERAL = new JMenuItem (north);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem WEST_LITERAL = new JMenuItem (west);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("westM").toCharArray()[0], InputEvent.SHIFT_DOWN_MASK));
+		
+		JMenuItem SOUTH_LITERAL = new JMenuItem (south);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem NORTH_WEST_LITERAL = new JMenuItem (northWest);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("northWestM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem SOUTH_EAST_LITERAL = new JMenuItem (southEast);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southEastM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+		
+		JMenuItem SOUTH_WEST_LITERAL = new JMenuItem (southWest);
+		//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("southWestM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+
+		
+		// Fill dropdown
+				// Adding the abstract action objects as menu items
+				JMenuItem  = new JMenuItem (vertical);
+				// Accelerator keys enable advanced users to access menu items without navigating the menu
+				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("verticalM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+				
+				JMenuItem  = new JMenuItem (horizontal);
+				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("horizontalM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+				
+				JMenuItem  = new JMenuItem (both);
+				//?? .setAccelerator (KeyStroke.getKeyStroke (Main.messages.getString("bothM").toCharArray()[0], InputEvent.CTRL_DOWN_MASK));
+
+				
+
+//add all menu items
+
+		fillMenu.add (vertical);
+		fillMenu.add (horizontal);
+		fillMenu.add (both);
+		//
+		anchorMenu.add (northEast);
+		anchorMenu.add (east);
+		anchorMenu.add (north);
+		anchorMenu.add (west);
+		anchorMenu.add (south);
+		anchorMenu.add (northWest);
+		anchorMenu.add (southEast);
+		anchorMenu.add (southWest);
+		
+		}
+
+};
+
+
+
+
